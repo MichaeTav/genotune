@@ -1,0 +1,208 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+button.piano-key {
+  width: 100%; /* Set a percentage-based width for each key */
+  height: 60px; /* Make the keys the full height of the container */
+  background-color: #f9f9f9;
+  color: black;
+  font-size: x-large;
+  text-align: right;
+  border: 1px solid #ccc;
+  padding-right: 10px;
+  box-sizing: border-box; /* Include border in width and height calculations */
+}
+
+button.control {
+  min-width: 150px;
+}
+
+/* Style for the piano roll container */
+.piano-roll {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch; /* Allow the header section to grow and take available space */ /* Space between header and controls */
+}
+
+/* Style for the keys section */
+.keys {
+  flex: 0 0 15%; /* Set the keys section to take up 15% of the container's width */
+  max-width: 15%;
+  display: flex;
+  flex-direction: column; /* Space the keys evenly within the keys section */
+  align-items: stretch;
+}
+
+/* Style for the controls section */
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50vw;
+}
+
+.controls > * {
+  margin-bottom: 10px; /* Adjust the value as needed */
+}
+
+/* Style for the volume control */
+.volume-control {
+  width: 50%; /* Make the volume control take up the full width of the controls section */
+  text-align: center; /* Center-align the label and input */
+}
+
+.octave-control {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.timeline-row {
+  display: flex;
+}
+
+.timeline-cell {
+  flex: 1;
+  border: 1px solid #e0e0e0;
+  height: 58px;
+  min-width: 30px;
+}
+
+.timeline-cell:nth-child(4n + 4),
+.timeline-cell:nth-child(4n + 8) {
+  border-right-width: 4px;
+  border-color: #ffffff;
+}
+
+.timeline-cell:last-child {
+  border-right-width: 1px;
+}
+
+.timeline-cell.active {
+  background-color: #747bff;
+}
+
+.timeline-cell.active:hover {
+  background-color: #9298ff;
+}
+
+.timeline-cell:hover {
+  background-color: #515151;
+  cursor: pointer;
+}
+
+.timeline-cell.active.hovered {
+  background-color: #9298ff;
+}
+
+.timeline-cell.hovered {
+  background-color: #515151;
+  cursor: pointer;
+}
+
+.bottom{
+  display: flex;
+}
+
+.algo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50vw;
+}
+
+.parameter-input {
+  box-sizing: border-box; 
+  width: calc(33.33% - 20px); 
+  padding: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.parameter-input > * {
+  display: block;
+  font-size: 16px;
+}
+
+.parameter-input > label {
+  white-space: nowrap;
+}
+
+.parameter-form {
+  width: 100%; /* Or any specific width you want, e.g., 960px for a max container width */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;   
+  align-items: flex-start;
+}
