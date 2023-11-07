@@ -13,7 +13,11 @@ const Header = ({ score, iteration, generating }) => {
       >
         <h3>Current Score: {score}</h3>
         {generating && <h3>Iteration: {iteration}</h3>}
-        <h3>Hi</h3>
+        <h3>
+          <a href="https://github.com/MichaeTav/genotune" target="_blank">
+            Created by Michael Tavera
+          </a>
+        </h3>
       </div>
     </div>
   );
