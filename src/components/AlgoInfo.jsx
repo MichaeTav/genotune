@@ -36,15 +36,13 @@ const AlgoInfo = ({
             score: evaluateMelody(melody, formData),
           };
         });
-
+        // https://scholarworks.iupui.edu/server/api/core/bitstreams/fbab5c96-54f9-424b-b298-64bdc1037026/content#:~:text=The%20algorithm%20for%20generating%20new,from%20those%20500%20parents%20randomly.
         evaluatedMelodies.sort((a, b) => b.score - a.score);
 
         const [father, mother] = generateFatherAndMother(
           evaluatedMelodies,
           formData
         );
-        // const father = evaluatedMelodies[0].melody;
-        // const mother = evaluatedMelodies[1].melody;
 
         const baby = melodyBaby(father, mother, formData);
 

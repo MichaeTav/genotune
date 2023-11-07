@@ -23,6 +23,7 @@ const initialFormData = {
   stepReward: 5,
   iterations: 1000,
   childrenPerIter: 1000,
+  splitIndex: 16,
   addNotePercentage: 0.05,
   mutationPercentage: 0.1,
   removeNotePercentage: 0.05,
@@ -97,15 +98,21 @@ function melodyBaby(father, mother, parameters) {
     case "bestHalfs":
       return getBabyByBestHalfs(father, mother, parameters);
     case "split":
-      return getBabyBySplitting(father, mother);
+      return getBabyBySplitting(father, mother, parameters);
     default:
       return father;
   }
 }
 
 function getBabyByBestHalfs(father, mother, parameters) {
-  const [fatherFirst, fatherSecond] = splitArrayByColumns(father);
-  const [motherFirst, motherSecond] = splitArrayByColumns(mother);
+  const [fatherFirst, fatherSecond] = splitArrayByColumns(
+    father,
+    parameters.splitIndex
+  );
+  const [motherFirst, motherSecond] = splitArrayByColumns(
+    mother,
+    parameters.splitIndex
+  );
   // console.log(fatherFirst);
   // console.log(fatherSecond);
   // console.log(evaluateMelody(fatherFirst, parameters));
@@ -127,10 +134,10 @@ function getBabyByBestHalfs(father, mother, parameters) {
   );
 }
 
-function getBabyBySplitting(father, mother) {
+function getBabyBySplitting(father, mother, { splitIndex = 16 }) {
   const baby = father.map((row, index) => {
-    const firstHalf = row.slice(0, 16);
-    const secondHalf = mother[index].slice(16, 32);
+    const firstHalf = row.slice(0, splitIndex);
+    const secondHalf = mother[index].slice(splitIndex, 32);
     return firstHalf.concat(secondHalf);
   });
 
@@ -197,7 +204,7 @@ function mutateBaby(baby, vals) {
 function generateFatherAndMother(evaluatedMelodies, parameters) {
   switch (parameters.selection) {
     case "roulette":
-      return rouletteWheelSelection(evaluatedMelodies, parameters);
+      return rouletteWheelSelection(evaluatedMelodies);
     case "topPerformers":
       return topPerformers(evaluatedMelodies);
   }
@@ -207,9 +214,16 @@ function topPerformers(evaluatedMelodies) {
   return [evaluatedMelodies[0].melody, evaluatedMelodies[1].melody];
 }
 
-function rouletteWheelSelection(sortedMelodies, parameters) {
+function rouletteWheelSelection(sortedMelodies) {
   const selectedMelodies = [];
-  const totalFitness = sortedMelodies.reduce(
+  const minScore = sortedMelodies[sortedMelodies.length - 1].score;
+  const normalizedArray = sortedMelodies.map((melody) => {
+    return {
+      ...melody,
+      score: melody.score + 1 + minScore * -1,
+    };
+  });
+  const totalFitness = normalizedArray.reduce(
     (sum, melody) => sum + melody.score,
     0
   );
@@ -219,8 +233,8 @@ function rouletteWheelSelection(sortedMelodies, parameters) {
     let accumulatedProbability = 0;
 
     for (let j = 0; j < sortedMelodies.length; j++) {
-      const melody = sortedMelodies[j].melody;
-      const probability = evaluateMelody(melody, parameters) / totalFitness;
+      const melody = normalizedArray[j].melody;
+      const probability = normalizedArray[j].score / totalFitness;
       accumulatedProbability += probability;
 
       if (accumulatedProbability >= rand) {
@@ -230,7 +244,23 @@ function rouletteWheelSelection(sortedMelodies, parameters) {
     }
   }
 
+  const [firstBest, secondBest] = topPerformers(sortedMelodies);
+
+  const finalMelodies = [
+    getBabyBySplitting(firstBest, selectedMelodies[0]),
+    getBabyBySplitting(selectedMelodies[1], secondBest),
+  ];
+
   return selectedMelodies;
+}
+
+// fisher yates
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }
 
 export {
@@ -241,4 +271,5 @@ export {
   initialFormData,
   rouletteWheelSelection,
   generateFatherAndMother,
+  shuffle,
 };

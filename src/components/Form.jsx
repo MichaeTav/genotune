@@ -51,6 +51,11 @@ const formFields = [
     name: "removeNotePercentage",
     title: "Remove Note Percentage",
   },
+  {
+    type: "number",
+    name: "splitIndex",
+    title: "Split Index",
+  },
 ];
 
 const babyMethods = [
